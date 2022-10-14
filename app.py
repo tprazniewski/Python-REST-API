@@ -15,6 +15,7 @@ stores = [
 ]
 
 
+
 @app.get('/store')
 def get_stores():
     return {"stores": stores}
@@ -35,3 +36,18 @@ def create_item(name):
             store['items'].append(new_item)
             return new_item
     return { "message": " store not found"}, 404
+
+
+@app.get('/store/<string:name>')
+def get_store(name):
+    for store in stores:
+        if store['name'] == name:
+            return store
+    return {"message": "Store not found"}
+
+@app.get('/store/<string:name>/items')
+def get_item_in_store(name):
+    for store in stores:
+        if store['name'] == name:
+            return {"items": store['items']}
+    return {"message": "Store not found"}
